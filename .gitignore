@@ -1,0 +1,34 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+
+# Spark
+.sparkStaging/
+metastore_db/
+spark-warehouse/
+
+# Data
+data/
+*.csv
+*.parquet
+*.json
+
+# Logs
+*.log
+logs/
+
+# Environment / secrets
+.env
+*.key
+*.pem
+
+# Elasticsearch data
+elk-*/data/
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store

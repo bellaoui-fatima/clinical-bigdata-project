@@ -1,0 +1,32 @@
+services:
+
+  elk-02:
+    image: docker.elastic.co/elasticsearch/elasticsearch:9.5.4
+    container_name: elk-02
+    hostname: elk-02
+
+    network_mode: host
+
+    environment:
+      - node.name=elk-02
+      - cluster.name=clinical-bigdata-cluster
+
+      - discovery.seed_hosts=192.168.100.43,192.168.100.76
+
+      - cluster.initial_master_nodes=elk-01,elk-02
+
+      - network.host=192.168.100.76
+
+      - http.port=9200
+      - transport.port=9300
+
+
+      - xpack.security.enabled=false
+
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g
+
+    volumes:
+      - elk02-data:/usr/share/elasticsearch/data
+
+volumes:
+  elk02-data:
