@@ -1,0 +1,40 @@
+services:
+
+  elk-01:
+    image: docker.elastic.co/elasticsearch/elasticsearch:9.5.4
+    container_name: elk-01
+    restart: unless-stopped
+
+    network_mode: host
+
+    environment:
+      - node.name=elk-01
+      - cluster.name=clinical-bigdata-cluster
+      - discovery.seed_hosts=192.168.100.43,192.168.100.76
+      - cluster.initial_master_nodes=elk-01,elk-02
+
+      - network.host=0.0.0.0
+      - network.publish_host=192.168.100.43
+      - http.port=9200
+      - transport.port=9300
+
+      - xpack.security.enabled=false
+
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g
+
+    volumes:
+      - elk01-data:/usr/share/elasticsearch/data
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:9.5.4
+    container_name: kibana
+    restart: unless-stopped
+
+    environment:
+      - ELASTICSEARCH_HOSTS=["http://192.168.100.43:9200","http://192.168.100.76:9200"]
+
+    ports:
+      - "5601:5601"
+
+volumes:
+  elk01-data:
